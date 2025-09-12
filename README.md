@@ -4,71 +4,101 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is the **Products Microservice**, a key component of the Backend-MS project. It is a robust and scalable application built with [NestJS](https://nestjs.com/), designed to handle all operations related to product management, including creation, retrieval, updating, and deletion of products.
 
-<p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-  <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-<a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-  <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-<a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-<!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-[![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Key Features
 
-## Description
+- **CRUD Operations:** Full support for managing product data.
+- **Validation:** Implements `class-validator` and `class-transformer` for robust request data validation.
+- **Database Integration:** Uses [Prisma ORM](https://www.prisma.io/) for efficient and type-safe database access.
+- **Configuration:** Environment-based configuration for easy setup across different environments (development, production, etc.).
 
-This is the Products Microservice, responsible for managing all product-related operations.
+---
 
-## Installation
+## Getting Started
+
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/) (v22.x or higher recommended)
+- [NPM](https://www.npmjs.com/)
+- A running instance of a compatible database (e.g., PostgreSQL, MySQL). This project is pre-configured to use a local SQLite database for ease of setup.
+
+### Installation & Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd products-ms
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Configuration:**
+    Copy the environment template file and update it with your local configuration.
+    ```bash
+    cp .env.template .env
+    ```
+    Open the `.env` file and set the `PORT` and `DATABASE_URL`. For the default SQLite setup, the `DATABASE_URL` should look like this:
+    ```
+    DATABASE_URL="file:./dev.db"
+    ```
+
+4.  **Database Migration:**
+    Apply the database schema and migrations using Prisma.
+    ```bash
+    npx prisma migrate dev
+    ```
+    This command will create the database file (if it doesn't exist) and apply all pending migrations.
+
+---
+
+## Running the Application
 
 ```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
+# Development mode with watch
 $ npm run start:dev
 
-# production mode
+# Production mode
+$ npm run build
 $ npm run start:prod
 ```
 
-## Test
+The application will be running on the port specified in your `.env` file (default is `3000`).
+
+---
+
+## Running Tests
+
+This project uses [Jest](https://jestjs.io/) for unit and end-to-end testing.
 
 ```bash
-# unit tests
+# Run all unit tests
 $ npm run test
 
-# e2e tests
+# Run end-to-end tests
 $ npm run test:e2e
 
-# test coverage
+# Get test coverage report
 $ npm run test:cov
 ```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## API Reference
 
-## Stay in touch
+Once the application is running, the API is exposed. By default, NestJS applications provide an OpenAPI (Swagger) specification. While not explicitly configured in the base project, you can add it to explore the available endpoints.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+The main endpoint for this microservice is:
+
+- `/api/products`
+
+---
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is [MIT licensed](LICENSE).
