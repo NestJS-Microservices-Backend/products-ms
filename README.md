@@ -1,104 +1,98 @@
 # Products Microservice
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+This is a **NestJS** microservice for managing products within a larger microservices architecture. It uses **Prisma** as an ORM to connect to a database.
 
-This is the **Products Microservice**, a key component of the Backend-MS project. It is a robust and scalable application built with [NestJS](https://nestjs.com/), designed to handle all operations related to product management, including creation, retrieval, updating, and deletion of products.
+## Table of Contents
 
-## Key Features
-
-- **CRUD Operations:** Full support for managing product data.
-- **Validation:** Implements `class-validator` and `class-transformer` for robust request data validation.
-- **Database Integration:** Uses [Prisma ORM](https://www.prisma.io/) for efficient and type-safe database access.
-- **Configuration:** Environment-based configuration for easy setup across different environments (development, production, etc.).
-
----
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Environment Variables](#environment-variables)
+- [Database](#database)
+- [Available Operations (Message Patterns)](#available-operations-message-patterns)
 
 ## Getting Started
 
-Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
-
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/en/) (v22.x or higher recommended)
-- [NPM](https://www.npmjs.com/)
-- A running instance of a compatible database (e.g., PostgreSQL, MySQL). This project is pre-configured to use a local SQLite database for ease of setup.
+- [Node.js](https://nodejs.org/) (v22.x or higher recommended)
+- [pnpm](https://pnpm.io/) (or npm/yarn)
 
-### Installation & Setup
+### Installation
 
-1.  **Clone the repository:**
+1.  Clone the repository:
     ```bash
     git clone <repository-url>
+    ```
+2.  Navigate to the project directory:
+    ```bash
     cd products-ms
     ```
-
-2.  **Install dependencies:**
+3.  Install the dependencies:
     ```bash
     npm install
     ```
 
-3.  **Environment Configuration:**
-    Copy the environment template file and update it with your local configuration.
-    ```bash
-    cp .env.template .env
-    ```
-    Open the `.env` file and set the `PORT` and `DATABASE_URL`. For the default SQLite setup, the `DATABASE_URL` should look like this:
-    ```
-    DATABASE_URL="file:./dev.db"
-    ```
+## Running the Application
 
-4.  **Database Migration:**
-    Apply the database schema and migrations using Prisma.
+To run the application in development mode with hot-reloading, use:
+
+```bash
+npm run start:dev
+```
+
+For production mode:
+
+```bash
+npm run start:prod
+```
+
+## Environment Variables
+
+This project uses a `.env` file for environment variables. Create a `.env` file in the root of the project by copying the template:
+
+```bash
+cp .env.template .env
+```
+
+The main variable to configure is the database connection string:
+
+```
+# .env
+DATABASE_URL="file:./dev.db"
+```
+
+## Database
+
+This project uses **Prisma** to manage the database schema and queries.
+
+-   **Schema:** The database schema is defined in `prisma/schema.prisma`.
+-   **Migrations:** To apply pending migrations, run:
     ```bash
     npx prisma migrate dev
     ```
-    This command will create the database file (if it doesn't exist) and apply all pending migrations.
+-   **Prisma Studio:** To view and manage data in the database, you can use Prisma Studio:
+    ```bash
+    npx prisma studio
+    ```
 
----
+## Available Operations (Message Patterns)
 
-## Running the Application
+This microservice communicates via message patterns. The following commands are available:
 
-```bash
-# Development mode with watch
-$ npm run start:dev
-
-# Production mode
-$ npm run build
-$ npm run start:prod
-```
-
-The application will be running on the port specified in your `.env` file (default is `3000`).
-
----
-
-## Running Tests
-
-This project uses [Jest](https://jestjs.io/) for unit and end-to-end testing.
-
-```bash
-# Run all unit tests
-$ npm run test
-
-# Run end-to-end tests
-$ npm run test:e2e
-
-# Get test coverage report
-$ npm run test:cov
-```
-
----
-
-## API Reference
-
-Once the application is running, the API is exposed. By default, NestJS applications provide an OpenAPI (Swagger) specification. While not explicitly configured in the base project, you can add it to explore the available endpoints.
-
-The main endpoint for this microservice is:
-
-- `/api/products`
-
----
-
-## License
-
-This project is [MIT licensed](LICENSE).
+-   `{ cmd: 'create_product' }`
+    -   **Payload:** `CreateProductDto`
+    -   **Description:** Creates a new product.
+-   `{ cmd: 'find_all_products' }`
+    -   **Payload:** `PaginationDto` (`{ page, limit }`)
+    -   **Description:** Retrieves a paginated list of products.
+-   `{ cmd: 'find_one_product' }`
+    -   **Payload:** `{ id: number }`
+    -   **Description:** Finds a single product by its ID.
+-   `{ cmd: 'update_product' }`
+    -   **Payload:** `UpdateProductDto`
+    -   **Description:** Updates a product's details.
+-   `{ cmd: 'delete_product' }`
+    -   **Payload:** `{ id: number }`
+    -   **Description:** Deletes a product by its ID.
