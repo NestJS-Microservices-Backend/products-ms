@@ -8,9 +8,11 @@ This is a **NestJS** microservice for managing products within a larger microser
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Running the Application](#running-the-application)
+- [Available Scripts](#available-scripts)
 - [Environment Variables](#environment-variables)
 - [Database](#database)
 - [Available Operations (Message Patterns)](#available-operations-message-patterns)
+- [Technologies Used](#technologies-used)
 
 ## Getting Started
 
@@ -47,6 +49,21 @@ For production mode:
 ```bash
 npm run start:prod
 ```
+
+## Available Scripts
+
+- `build`: Compiles the TypeScript code.
+- `format`: Formats the code using Prettier.
+- `start`: Starts the application.
+- `start:dev`: Starts the application in development mode with hot-reloading.
+- `start:debug`: Starts the application in debug mode.
+- `start:prod`: Starts the application in production mode.
+- `lint`: Lints the code using ESLint.
+- `test`: Runs the tests.
+- `test:watch`: Runs the tests in watch mode.
+- `test:cov`: Generates a test coverage report.
+- `test:debug`: Runs the tests in debug mode.
+- `test:e2e`: Runs the end-to-end tests.
 
 ## Environment Variables
 
@@ -96,3 +113,10 @@ This microservice communicates via message patterns. The following commands are 
 -   `{ cmd: 'delete_product' }`
     -   **Payload:** `{ id: number }`
     -   **Description:** Deletes a product by its ID.
+
+## Technologies Used
+
+- [NestJS](https://nestjs.com/)
+- [Prisma](https://www.prisma.io/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Node.js](https://nodejs.org/)
