@@ -13,6 +13,8 @@ This is a **NestJS** microservice for managing products within a larger microser
 - [Database](#database)
 - [Available Operations (Message Patterns)](#available-operations-message-patterns)
 - [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
 
 ## Getting Started
 
@@ -120,3 +122,30 @@ This microservice communicates via message patterns. The following commands are 
 - [Prisma](https://www.prisma.io/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Node.js](https://nodejs.org/)
+
+## Project Structure
+
+The project follows a standard NestJS application structure:
+
+-   `src/`: Contains the main source code.
+    -   `main.ts`: The application entry point.
+    -   `app.module.ts`: The root module of the application.
+    -   `common/`: Shared modules, DTOs, and utilities.
+    -   `config/`: Environment variable configuration.
+    -   `products/`: The main business logic module for products, including controllers, services, DTOs, and entities.
+-   `prisma/`: Contains the database schema (`schema.prisma`) and migrations.
+-   `dist/`: The output directory for the compiled JavaScript code.
+-   `node_modules/`: Directory where dependencies are installed.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1.  Fork the repository.
+2.  Create a new branch (`git checkout -b feature/your-feature-name`).
+3.  Make your changes.
+4.  Commit your changes (`git commit -m '''feat: Add some feature'''`).
+5.  Push to the branch (`git push origin feature/your-feature-name`).
+6.  Create a new Pull Request.
+
+Please make sure to update tests as appropriate.
