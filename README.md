@@ -54,18 +54,18 @@ npm run start:prod
 
 ## Available Scripts
 
-- `build`: Compiles the TypeScript code.
-- `format`: Formats the code using Prettier.
-- `start`: Starts the application.
-- `start:dev`: Starts the application in development mode with hot-reloading.
-- `start:debug`: Starts the application in debug mode.
-- `start:prod`: Starts the application in production mode.
-- `lint`: Lints the code using ESLint.
-- `test`: Runs the tests.
-- `test:watch`: Runs the tests in watch mode.
-- `test:cov`: Generates a test coverage report.
-- `test:debug`: Runs the tests in debug mode.
-- `test:e2e`: Runs the end-to-end tests.
+- `npm run build`: Compiles the TypeScript source code into JavaScript, preparing it for production. The output is placed in the `dist` directory.
+- `npm run format`: Formats all source files according to the rules defined in `.prettierrc`.
+- `npm run start`: Starts the application from the compiled JavaScript code in the `dist` directory. Use this for production environments.
+- `npm run start:dev`: Starts the application in development mode using `ts-node` with file watching. The server will automatically restart when code changes are detected.
+- `npm run start:debug`: Starts the application in debug mode, allowing you to attach a debugger.
+- `npm run start:prod`: Starts the application in production mode. This is typically an alias for `node dist/main`.
+- `npm run lint`: Analyzes the source code for potential errors and style issues using ESLint.
+- `npm run test`: Executes all unit tests (`.spec.ts` files) using Jest.
+- `npm run test:watch`: Runs the tests in watch mode, re-running them automatically as files change.
+- `npm run test:cov`: Generates a test coverage report, showing how much of your code is covered by tests.
+- `npm run test:debug`: Runs the tests in debug mode.
+- `npm run test:e2e`: Runs the end-to-end tests for the application.
 
 ## Environment Variables
 
