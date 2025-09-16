@@ -8,6 +8,7 @@ This is a **NestJS** microservice for managing products within a larger microser
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Running the Application](#running-the-application)
+- [Docker Support](#docker-support)
 - [Available Scripts](#available-scripts)
 - [Environment Variables](#environment-variables)
 - [Database](#database)
@@ -20,8 +21,9 @@ This is a **NestJS** microservice for managing products within a larger microser
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v22.x or higher recommended)
+- [Node.js](https://nodejs.org/) (v21.x or higher)
 - [npm](https://www.npmjs.com/)
+- [Docker](https://www.docker.com/) (Optional, for containerized deployment)
 
 ### Installation
 
@@ -63,6 +65,24 @@ For production mode:
     ```bash
     npm run start:prod
     ```
+
+## Docker Support
+
+This project includes a `Dockerfile` for containerization.
+
+1.  **Build the Docker image:**
+    ```bash
+    docker build -t products-ms .
+    ```
+
+2.  **Run the Docker container:**
+    Make sure you have a `.env` file created, as the container uses it for environment variables.
+    ```bash
+    docker run --env-file .env -p 3001:3001 products-ms
+    ```
+    *   `--env-file .env`: Passes the environment variables from your `.env` file to the container.
+    *   `-p 3001:3001`: Maps port 3001 from the container to port 3001 on your host machine. The internal port is set by the `PORT` environment variable.
+
 
 ## Available Scripts
 
@@ -139,6 +159,7 @@ This microservice communicates via NATS using message patterns. The following co
 - [NATS](https://nats.io/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Node.js](https://nodejs.org/)
+- [Docker](https://www.docker.com/)
 
 ## Project Structure
 
@@ -162,7 +183,7 @@ Contributions are welcome! Please follow these steps:
 1.  Fork the repository.
 2.  Create a new branch (`git checkout -b feature/your-feature-name`).
 3.  Make your changes.
-4.  Commit your changes (`git commit -m '''feat: Add some feature'''`).
+4.  Commit your changes (`git commit -m "feat: Add some feature"`).
 5.  Push to the branch (`git push origin feature/your-feature-name`).
 6.  Create a new Pull Request.
 
