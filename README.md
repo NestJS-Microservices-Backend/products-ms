@@ -1,6 +1,6 @@
 # Products Microservice
 
-This is a **NestJS** microservice for managing products within a larger microservices architecture. It uses **Prisma** as an ORM to connect to a database.
+This is a **NestJS** microservice for managing products within a larger microservices architecture. It uses **Prisma** as an ORM to connect to a database and communicates with other services via **NATS**.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ This is a **NestJS** microservice for managing products within a larger microser
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) (v22.x or higher recommended)
-- [pnpm](https://pnpm.io/) (or npm/yarn)
+- [npm](https://www.npmjs.com/)
 
 ### Installation
 
@@ -37,6 +37,11 @@ This is a **NestJS** microservice for managing products within a larger microser
     ```bash
     npm install
     ```
+4.  Set up your environment variables by copying the template:
+    ```bash
+    cp .env.template .env
+    ```
+    Then, fill in the required values in the `.env` file. See [Environment Variables](#environment-variables) for more details.
 
 ## Running the Application
 
@@ -46,40 +51,48 @@ To run the application in development mode with hot-reloading, use:
 npm run start:dev
 ```
 
+This command will first run `prisma migrate dev` to apply any pending database migrations and generate the Prisma client, then it will start the NestJS application with file watching enabled.
+
 For production mode:
 
-```bash
-npm run start:prod
-```
+1.  Build the application:
+    ```bash
+    npm run build
+    ```
+2.  Start the server:
+    ```bash
+    npm run start:prod
+    ```
 
 ## Available Scripts
 
-- `npm run build`: Compiles the TypeScript source code into JavaScript, preparing it for production. The output is placed in the `dist` directory.
-- `npm run format`: Formats all source files according to the rules defined in `.prettierrc`.
-- `npm run start`: Starts the application from the compiled JavaScript code in the `dist` directory. Use this for production environments.
-- `npm run start:dev`: Starts the application in development mode using `ts-node` with file watching. The server will automatically restart when code changes are detected.
-- `npm run start:debug`: Starts the application in debug mode, allowing you to attach a debugger.
-- `npm run start:prod`: Starts the application in production mode. This is typically an alias for `node dist/main`.
-- `npm run lint`: Analyzes the source code for potential errors and style issues using ESLint.
-- `npm run test`: Executes all unit tests (`.spec.ts` files) using Jest.
-- `npm run test:watch`: Runs the tests in watch mode, re-running them automatically as files change.
-- `npm run test:cov`: Generates a test coverage report, showing how much of your code is covered by tests.
-- `npm run test:debug`: Runs the tests in debug mode.
-- `npm run test:e2e`: Runs the end-to-end tests for the application.
+- `npm run build`: Compiles the TypeScript source code into JavaScript for production.
+- `npm run format`: Formats all source files using Prettier.
+- `npm run start`: Starts the application from compiled code (for production).
+- `npm run start:dev`: Starts the application in development mode with hot-reloading. Automatically runs database migrations.
+- `npm run start:debug`: Starts the application in debug mode.
+- `npm run start:prod`: Starts the application in production mode.
+- `npm run lint`: Lints the source code using ESLint.
+- `npm run test`: Runs unit tests.
+- `npm run test:watch`: Runs tests in watch mode.
+- `npm run test:cov`: Generates a test coverage report.
+- `npm run test:e2e`: Runs end-to-end tests.
 
 ## Environment Variables
 
-This project uses a `.env` file for environment variables. Create a `.env` file in the root of the project by copying the template:
+This project requires the following environment variables, which can be set in a `.env` file:
 
-```bash
-cp .env.template .env
+-   `PORT`: The port the microservice will listen on.
+-   `DATABASE_URL`: The connection string for the database.
+    -   Example for local SQLite: `file:./dev.db`
+-   `NATS_SERVERS`: A comma-separated list of NATS server URLs.
+    -   Example: `nats://localhost:4222`
+
+Example `.env` file:
 ```
-
-The main variable to configure is the database connection string:
-
-```
-# .env
+PORT=3001
 DATABASE_URL="file:./dev.db"
+NATS_SERVERS=nats://localhost:4222
 ```
 
 ## Database
@@ -87,7 +100,7 @@ DATABASE_URL="file:./dev.db"
 This project uses **Prisma** to manage the database schema and queries.
 
 -   **Schema:** The database schema is defined in `prisma/schema.prisma`.
--   **Migrations:** To apply pending migrations, run:
+-   **Migrations:** While `npm run start:dev` handles migrations automatically, you can also run them manually:
     ```bash
     npx prisma migrate dev
     ```
@@ -98,7 +111,7 @@ This project uses **Prisma** to manage the database schema and queries.
 
 ## Available Operations (Message Patterns)
 
-This microservice communicates via message patterns. The following commands are available:
+This microservice communicates via NATS using message patterns. The following commands are available:
 
 -   `{ cmd: 'create_product' }`
     -   **Payload:** `CreateProductDto`
@@ -115,11 +128,15 @@ This microservice communicates via message patterns. The following commands are 
 -   `{ cmd: 'delete_product' }`
     -   **Payload:** `{ id: number }`
     -   **Description:** Deletes a product by its ID.
+-   `{ cmd: 'validate_products' }`
+    -   **Payload:** `number[]` (Array of product IDs)
+    -   **Description:** Validates if a list of products exists, returning the validated products.
 
 ## Technologies Used
 
 - [NestJS](https://nestjs.com/)
 - [Prisma](https://www.prisma.io/)
+- [NATS](https://nats.io/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Node.js](https://nodejs.org/)
 
@@ -135,7 +152,6 @@ The project follows a standard NestJS application structure:
     -   `products/`: The main business logic module for products, including controllers, services, DTOs, and entities.
 -   `prisma/`: Contains the database schema (`schema.prisma`) and migrations.
 -   `dist/`: The output directory for the compiled JavaScript code.
--   `node_modules/`: Directory where dependencies are installed.
 
 ---
 
