@@ -137,6 +137,8 @@ The project follows a standard NestJS application structure:
 -   `dist/`: The output directory for the compiled JavaScript code.
 -   `node_modules/`: Directory where dependencies are installed.
 
+---
+
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
